@@ -98,7 +98,33 @@ namespace RhythmsGonnaGetYou
                         break;
                     case "4":
                         //Add a song to an album
-                        Console.WriteLine("This option adds a song to an album");
+                        foreach (var album in context.Albums)
+                        {
+                            Console.WriteLine($"{album.Id} - {album.Title}");
+                        }
+                        Console.WriteLine("What album is this song on?");
+                        var albumIdForNewSong = int.Parse(Console.ReadLine());
+                        Console.WriteLine("What is the track number?");
+                        var trackNumber = int.Parse(Console.ReadLine());
+                        Console.WriteLine("What is the title of the song?");
+                        var songTitle = Console.ReadLine();
+                        Console.Write("How long is the song?\nhours:");
+                        var songDurationHours = int.Parse(Console.ReadLine());
+                        Console.Write("minutes:");
+                        var songDurationMinutes = int.Parse(Console.ReadLine());
+                        Console.Write("seconds:");
+                        var songDurationSeconds = int.Parse(Console.ReadLine());
+                        var songDuration = (songDurationHours * 3600) + (songDurationMinutes * 60) + songDurationSeconds;
+
+                        var newSong = new Song
+                        {
+                            TrackNumber = trackNumber,
+                            Title = songTitle,
+                            Duration = songDuration,
+                            AlbumId = albumIdForNewSong
+                        };
+                        context.Songs.Add(newSong);
+                        context.SaveChanges();
                         break;
                     case "5":
                         //Let a band go (update isSigned to false)
