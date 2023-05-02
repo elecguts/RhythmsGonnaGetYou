@@ -160,11 +160,30 @@ namespace RhythmsGonnaGetYou
                         break;
                     case "7":
                         //Prompt for a band name and view all their albums
-                        Console.WriteLine("This option takes a band name and returns all albums by that band");
+                        Console.WriteLine("Please type an existing band name: ");
+                        var bandToSearch = Console.ReadLine();
+                        var bandFound = context.Bands.FirstOrDefault(band => band.Name == bandToSearch);
+                        if (bandFound != null)
+                        {
+                            var albumsByBandFound = context.Albums.Where(album => album.BandId == bandFound.Id);
+                            foreach (var album in albumsByBandFound)
+                            {
+                                Console.WriteLine($"There is an album named {album.Title} by {bandFound.Name}");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("No band found by that name.");
+                        }
+
                         break;
                     case "8":
                         //View all albums ordered by ReleaseDate
-                        Console.WriteLine("This option shows all albums, ordered by release date");
+                        var albumsByRelease = context.Albums.OrderBy(album => album.ReleaseDate);
+                        foreach (var album in albumsByRelease)
+                        {
+                            Console.WriteLine($"{album.Title} was released on {album.ReleaseDate}");
+                        }
                         break;
                     case "9":
                         //View all bands that are signed
